@@ -87,7 +87,19 @@ int_radix_sort(int *lst, int *tmp, int n, int iii) {
     int buckets = 1 << group;
     int cnt[buckets], map[buckets];
 
+    for (int i=0; i < buckets; i++) {
+        cnt[i] = 0;
+        map[i]=0;
+    }
 
+    //COUNT
+    for (int i=0; i < N; i++) {
+        cnt[(lst[i] << iii) & buckets]=lst[i];
+    }
+
+    print_lst(cnt, n);
+
+    //MAP
 
 }
 
