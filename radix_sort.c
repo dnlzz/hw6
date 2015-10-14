@@ -45,20 +45,21 @@ int n, lst[N],tmp[N];
 int main(int argc,char **argv) {
 
   long int del_sec,del_msec;
-  struct timeval tv_s,tv_e;
+  // struct timeval tv_s,tv_e;
+  int iii=0;
 
   if (argc>1) n = atoi(argv[1]);
   else n = NELM;
   printf("n=%d\n",n);
   init_lst(lst,n);
-  //  print_lst(lst,n);
+  print_lst(lst,n);
 
-  gettimeofday(&tv_s, NULL); 
+  // gettimeofday(&tv_s, NULL); 
   // selection_sort(lst,n);
   //  merge_sort(lst,tmp,n);
   int_radix_sort(lst,tmp,n,iii);
   //  float_radix_sort(lst,tmp,n);
-  gettimeofday(&tv_e, NULL); 
+  // gettimeofday(&tv_e, NULL); 
 
   /****
     PRINT elapsed time in sec and milli secs
@@ -82,9 +83,10 @@ void msort_recursive(int list[], int temp[], int left, int right){
   // fill here
 }
 
-int_radix_sort(int *lst, int *tmp, int n, int iii) {
+void int_radix_sort(int *lst, int *tmp, int n, int iii) {
     int group = 4;
-    int buckets = 1 << group;
+    // int buckets = 1 << group;
+    int buckets = 10;
     int cnt[buckets], map[buckets];
 
     for (int i=0; i < buckets; i++) {
@@ -92,12 +94,20 @@ int_radix_sort(int *lst, int *tmp, int n, int iii) {
         map[i]=0;
     }
 
+    //BASE 10...problem?  
+    printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 0, ( (lst[0] >> 0 ) & (buckets-1) ) );
+    printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 1, ( (lst[0] >> 1 ) & (buckets-1) ) );
+    printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 2, ( (lst[0] >> 2 ) & (buckets-1) ) );
+    printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 3, ( (lst[0] >> 3  ) & (buckets-1) ) );
+
     //COUNT
     for (int i=0; i < N; i++) {
-        cnt[(lst[i] << iii) & buckets]=lst[i];
+        // cnt[(lst[i] << iii) & buckets]=lst[i];
+      int x = (lst[i] << iii) & buckets;
+        // printf("%d\n", x);
     }
 
-    print_lst(cnt, n);
+    // print_lst(cnt, n);
 
     //MAP
 
