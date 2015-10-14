@@ -46,10 +46,10 @@ int main(int argc,char **argv) {
 
   long int del_sec,del_msec;
   // struct timeval tv_s,tv_e;
-  int iii=0;
+  int iii=0, group = 4;
 
   if (argc>1) n = atoi(argv[1]);
-  else n = NELM;
+  else n = N;
   printf("n=%d\n",n);
   init_lst(lst,n);
   print_lst(lst,n);
@@ -57,7 +57,17 @@ int main(int argc,char **argv) {
   // gettimeofday(&tv_s, NULL); 
   // selection_sort(lst,n);
   //  merge_sort(lst,tmp,n);
-  int_radix_sort(lst,tmp,n,iii);
+
+  int *src, * dest;
+
+  src = lst;
+  dest = tmp;
+
+  for (iii = 0; iii < 32; iii + group) {
+    printf("%d", iii);
+    int_radix_sort(lst, tmp, n, iii);
+  }
+
   //  float_radix_sort(lst,tmp,n);
   // gettimeofday(&tv_e, NULL); 
 
@@ -65,7 +75,7 @@ int main(int argc,char **argv) {
     PRINT elapsed time in sec and milli secs
   ****/
 
-  //  print_lst(lst,n);
+  print_lst(lst,n);
   self_check();
   return 0;
 }
@@ -87,31 +97,37 @@ void int_radix_sort(int *lst, int *tmp, int n, int iii) {
     int group = 4;
     // int buckets = 1 << group;
     int buckets = 16;
+    int mask = buckets - 1;
     int cnt[buckets], map[buckets];
 
+    //INITIALIZE CNT ARRAY TO ALL ZEROS
     for (int i=0; i < buckets; i++) {
         cnt[i] = 0;
-        map[i] = 0;
     }
 
-    //BASE 10...problem?  
-    int y = (3 & 15);
-    printf("\n%d\n", y);
-    printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 0, ( (lst[0] >> 0 ) & (buckets-1) ) );
-    printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 4, ( (lst[0] >> 4 ) & (buckets-1) ) );
-    printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 8, ( (lst[0] >> 8 ) & (buckets-1) ) );
-    printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 12, ( (lst[0] >> 12  ) & (buckets-1) ) );
+    /* printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 0, ( (lst[0] >> 0 ) & (buckets-1) ) ); */
+    /* printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 4, ( (lst[0] >> 4 ) & (buckets-1) ) ); */
+    /* printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 2, ( (lst[0] >> 2 ) & (buckets-1) ) ); */
+    /* printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 3, ( (lst[0] >> 3  ) & (buckets-1) ) ); */
 
     //COUNT
     for (int i=0; i < N; i++) {
-        // cnt[(lst[i] >> iii) & buckets]=lst[i];
-      int x = (lst[i] << iii) & buckets;
-        // printf("%d\n", x);
+      cnt[(lst[i] >> iii) & mask]++;
     }
 
-    // print_lst(cnt, n);
 
     //MAP
+    int j = 0;
+    for (int i=0; i < buckets; i++) {
+      map[i]=j;
+      j=map[i]+cnt[i];
+    }
+
+
+    //MOVE
+    for (int i=0; i < N; i++) {
+      tmp[map[(lst[i] >> iii) & mask]] = lst[i];
+    }
 
 }
 
@@ -126,7 +142,7 @@ void radix_sort(int ii) {
 void print_lst(int *l,int n){
   int i;
   for (i=0; i<n; i++) {
-    printf("%d ",l[i]);
+    printf("%d   ",l[i]);
   }
   printf("\n");
 }
