@@ -56,7 +56,7 @@ int main(int argc,char **argv) {
   gettimeofday(&tv_s, NULL); 
   // selection_sort(lst,n);
   //  merge_sort(lst,tmp,n);
-  int_radix_sort(lst,tmp,n);
+  int_radix_sort(lst,tmp,n,iii);
   //  float_radix_sort(lst,tmp,n);
   gettimeofday(&tv_e, NULL); 
 
@@ -82,13 +82,13 @@ void msort_recursive(int list[], int temp[], int left, int right){
   // fill here
 }
 
-int_radix_sort(int *lst, int *tmp, int n) {
+int_radix_sort(int *lst, int *tmp, int n, int iii) {
     int group = 4;
     int buckets = 1 << group;
     int cnt[buckets], map[buckets];
 
-    
-    
+
+
 }
 
 //fix the bucket size to 256. run 4 passes where each pass processes 8 bits
