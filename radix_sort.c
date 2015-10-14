@@ -86,23 +86,25 @@ void msort_recursive(int list[], int temp[], int left, int right){
 void int_radix_sort(int *lst, int *tmp, int n, int iii) {
     int group = 4;
     // int buckets = 1 << group;
-    int buckets = 10;
+    int buckets = 16;
     int cnt[buckets], map[buckets];
 
     for (int i=0; i < buckets; i++) {
         cnt[i] = 0;
-        map[i]=0;
+        map[i] = 0;
     }
 
     //BASE 10...problem?  
+    int y = (3 & 15);
+    printf("\n%d\n", y);
     printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 0, ( (lst[0] >> 0 ) & (buckets-1) ) );
-    printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 1, ( (lst[0] >> 1 ) & (buckets-1) ) );
-    printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 2, ( (lst[0] >> 2 ) & (buckets-1) ) );
-    printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 3, ( (lst[0] >> 3  ) & (buckets-1) ) );
+    printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 4, ( (lst[0] >> 4 ) & (buckets-1) ) );
+    printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 8, ( (lst[0] >> 8 ) & (buckets-1) ) );
+    printf("\n%d\n%d\n%d\n", buckets, lst[0] >> 12, ( (lst[0] >> 12  ) & (buckets-1) ) );
 
     //COUNT
     for (int i=0; i < N; i++) {
-        // cnt[(lst[i] << iii) & buckets]=lst[i];
+        // cnt[(lst[i] >> iii) & buckets]=lst[i];
       int x = (lst[i] << iii) & buckets;
         // printf("%d\n", x);
     }
