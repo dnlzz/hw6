@@ -16,7 +16,7 @@
 #define OK 1
 #define NOK 0
 #define NELM 100		/* default 100 elements */
-#define N 1048576		/* 2^30 or 1 meg elements  */
+#define N 15		/* 2^30 or 1 meg elements  */
 //#define N 2097152
 //#define N 4194304
 //#define N 8388608
@@ -66,6 +66,8 @@ int main(int argc,char **argv) {
   for (iii = 0; iii < 32; iii + group) {
     printf("%d", iii);
     int_radix_sort(lst, tmp, n, iii);
+    swap(lst, tmp);
+    printf("\n");
   }
 
   //  float_radix_sort(lst,tmp,n);
@@ -78,6 +80,18 @@ int main(int argc,char **argv) {
   print_lst(lst,n);
   self_check();
   return 0;
+}
+
+void swap(int *src, int *dest) {
+
+  //have src point to dest and have destpoint to ...?
+  
+  int *tmp;
+  tmp = src;
+  src = dest;
+  dest = tmp;
+  
+  
 }
 
 void selection_sort(int list[],int n){
@@ -96,7 +110,7 @@ void msort_recursive(int list[], int temp[], int left, int right){
 void int_radix_sort(int *lst, int *tmp, int n, int iii) {
     int group = 4;
     // int buckets = 1 << group;
-    int buckets = 16;
+    int buckets = 1 << group;
     int mask = buckets - 1;
     int cnt[buckets], map[buckets];
 
