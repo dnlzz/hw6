@@ -64,6 +64,7 @@ int main(int argc,char **argv) {
   dest = tmp;
 
   for (int iii = 0; iii < 32; iii += group) {
+    
     int_radix_sort(lst, tmp, n, iii);
     swap(&lst, &tmp);
   }
@@ -82,17 +83,11 @@ int main(int argc,char **argv) {
 
 void swap(int *src, int *dest) {
 
-  //have src point to dest and have destpoint to ...?
-
-  // printf("%x  :  %x\n\n", src, dest);
-  
   int *tmp;
   tmp = src;
   src = dest;
   dest = tmp;
-  
-  //printf("%x  :  %x\n\n", src, dest);
-  
+    
 }
 
 void selection_sort(int list[],int n){
@@ -114,35 +109,40 @@ void int_radix_sort(int *lst, int *tmp, int n, int iii) {
     int buckets = 1 << group;
     int mask = buckets - 1;
     int cnt[buckets], map[buckets];
+    int loc;
     
     //INITIALIZE CNT ARRAY TO ALL ZEROS
     for (int i=0; i < buckets; i++) {
         cnt[i] = 0;
     }
-
+    
     // COUNT
-    for (int i=0; i < N; i++) {
-      // cnt[(lst[i] >> iii) & mask]++;
-      //printf("COUNT:: %d : %x\n", i, (lst[i] >> iii) & mask);
+    printf("\ncnt\t");
+    for (int i=0; i < n; i++) {
+      cnt[(lst[i] >> iii) & mask]++;
+      //printf("%d : %x :  ", i, (lst[i] >> iii) & mask);
     }
     
     print_lst(cnt, buckets);
     
     // MAP
+    printf("\nmap\t");
     int j = 0;
     for (int i=0; i < buckets; i++) {
       map[i]=j;
-      j=j+cnt[i];
-      printf("MAP!  ::  %d \n", j);
+      j=map[i]+cnt[i];
+      printf("%d  ", j);
     }
 
 
     // MOVE
-    for (int i=0; i < N; i++) {
+    printf("\nmov\t");
+    for (int i=0; i < n; i++) {
       tmp[map[(lst[i] >> iii) & mask]++] = lst[i];
-      printf("MOVE !  :  %d \n", map[(lst[i] >> iii) & mask]);
+      //printf("%d  ", map[(lst[i] >> iii) & mask]);
     }
 
+    print_lst(lst, n);
 }
 
 //fix the bucket size to 256. run 4 passes where each pass processes 8 bits
@@ -157,7 +157,7 @@ void print_lst(int *l,int n){
   int i;
   for (i=0; i<n; i++) {
     printf("%d  ",l[i]);
-    // printf("%x  ",l[i]);
+    //printf("%x  ",l[i]);
   }
   printf("\n");
 }
@@ -168,7 +168,7 @@ void init_lst(int *l,int n){
   //  printf ("seed=%d\n", seed);
   srand(234);			/* SEED */
   for (i=0; i<n; i++) {
-    l[i] = rand()/100000;
+    l[i] = rand();
   }
 }
 
