@@ -15,7 +15,7 @@
 
 #define OK 1
 #define NOK 0
-#define NELM 100		/* default 100 elements */
+#define NELM 10		/* default 100 elements */
 #define N 15		/* 2^30 or 1 meg elements  */
 //#define N 2097152
 //#define N 4194304
@@ -49,7 +49,7 @@ int main(int argc,char **argv) {
   int group = 4;
 
   if (argc>1) n = atoi(argv[1]);
-  else n = N;
+  else n = NELM;
   printf("n=%d\n",n);
   init_lst(lst,n);
   print_lst(lst,n);
@@ -65,9 +65,7 @@ int main(int argc,char **argv) {
 
   for (int iii = 0; iii < 32; iii += group) {
     int_radix_sort(lst, tmp, n, iii);
-    printf("cnt:");
-    swap(lst, tmp);
-    printf("\n");
+    swap(&lst, &tmp);
   }
 
   //  float_radix_sort(lst,tmp,n);
@@ -85,12 +83,15 @@ int main(int argc,char **argv) {
 void swap(int *src, int *dest) {
 
   //have src point to dest and have destpoint to ...?
+
+  // printf("%x  :  %x\n\n", src, dest);
   
   int *tmp;
   tmp = src;
   src = dest;
   dest = tmp;
   
+  //printf("%x  :  %x\n\n", src, dest);
   
 }
 
@@ -113,7 +114,7 @@ void int_radix_sort(int *lst, int *tmp, int n, int iii) {
     int buckets = 1 << group;
     int mask = buckets - 1;
     int cnt[buckets], map[buckets];
-
+    
     //INITIALIZE CNT ARRAY TO ALL ZEROS
     for (int i=0; i < buckets; i++) {
         cnt[i] = 0;
@@ -121,22 +122,25 @@ void int_radix_sort(int *lst, int *tmp, int n, int iii) {
 
     // COUNT
     for (int i=0; i < N; i++) {
-      cnt[(lst[i] >> iii) & mask]++;
-      printf("cnt %d\n", cnt[(lst[i] >> iii) & mask]);
+      // cnt[(lst[i] >> iii) & mask]++;
+      //printf("COUNT:: %d : %x\n", i, (lst[i] >> iii) & mask);
     }
-
-
+    
+    print_lst(cnt, buckets);
+    
     // MAP
     int j = 0;
     for (int i=0; i < buckets; i++) {
       map[i]=j;
-      j=map[i]+cnt[i];
+      j=j+cnt[i];
+      printf("MAP!  ::  %d \n", j);
     }
 
 
     // MOVE
     for (int i=0; i < N; i++) {
-      tmp[map[(lst[i] >> iii) & mask]] = lst[i];
+      tmp[map[(lst[i] >> iii) & mask]++] = lst[i];
+      printf("MOVE !  :  %d \n", map[(lst[i] >> iii) & mask]);
     }
 
 }
@@ -153,6 +157,7 @@ void print_lst(int *l,int n){
   int i;
   for (i=0; i<n; i++) {
     printf("%d  ",l[i]);
+    // printf("%x  ",l[i]);
   }
   printf("\n");
 }
@@ -161,9 +166,9 @@ void init_lst(int *l,int n){
   int i;
   //  int seed = time(0) % 100;	/* seconds since 1/1/1970 */
   //  printf ("seed=%d\n", seed);
-  srand(1234);			/* SEED */
+  srand(234);			/* SEED */
   for (i=0; i<n; i++) {
-    l[i] = rand();
+    l[i] = rand()/100000;
   }
 }
 
