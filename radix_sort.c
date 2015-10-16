@@ -15,8 +15,8 @@
 
 #define OK 1
 #define NOK 0
-#define NELM 10		/* default 100 elements */
-#define N 15		/* 2^30 or 1 meg elements  */
+#define NELM 100		/* default 100 elements */
+#define N 1000		/* 2^30 or 1 meg elements  */
 //#define N 2097152
 //#define N 4194304
 //#define N 8388608
@@ -85,7 +85,7 @@ int main(int argc,char **argv) {
   ****/
 
   // print_lst(lst,n);
-  self_check();
+  self_check(lst, n);
   return 0;
 }
 
@@ -144,6 +144,8 @@ void int_radix_sort(int *lst, int *tmp, int n, int iii) {
 
     print_lst(map, buckets);
 
+
+    
     // MOVE
     printf("\nmov\t");
     for (int i=0; i < n; i++) {
@@ -168,7 +170,7 @@ void print_lst(int *l,int n){
   int i;
   for (i=0; i<n; i++) {
     printf("%d  ",l[i]);
-    // printf("%x  ",l[i]);
+    //printf("%x  ",l[i]);
   }
   // printf("\n");
 }
@@ -177,9 +179,9 @@ void init_lst(int *l,int n){
   int i;
   //  int seed = time(0) % 100;	/* seconds since 1/1/1970 */
   //  printf ("seed=%d\n", seed);
-  srand(234);			/* SEED */
+  srand(12669);			/* SEED */
   for (i=0; i<n; i++) {
-    l[i] = rand();
+    l[i] = rand()/10;
   }
 }
 
