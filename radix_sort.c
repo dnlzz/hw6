@@ -24,8 +24,6 @@
 //#define N 33554432
 
 void selection_sort();
-void swap();
-
 void merge_sort();
 void msort_recursive();
 
@@ -58,15 +56,19 @@ int main(int argc,char **argv) {
   // selection_sort(lst,n);
   //  merge_sort(lst,tmp,n);
 
-  int *src, * dest;
+  // int *src, * dest;
 
-  src = lst;
-  dest = tmp;
+  // src = lst;
+  // dest = tmp;
+
+  // printf("%x  :  %x\n", src, lst);
+  // printf("%x  :  %x\n", dest, tmp);
+
+  //   printf("%x  :  %x\n", src, &lst);
+  // printf("%x  :  %x\n", dest, &tmp);
 
   for (int iii = 0; iii < 32; iii += group) {
-    
     int_radix_sort(lst, tmp, n, iii);
-    swap(&lst, &tmp);
   }
 
   //  float_radix_sort(lst,tmp,n);
@@ -76,18 +78,24 @@ int main(int argc,char **argv) {
     PRINT elapsed time in sec and milli secs
   ****/
 
-  print_lst(lst,n);
+  // print_lst(lst,n);
   self_check();
   return 0;
 }
 
 void swap(int *src, int *dest) {
 
-  int *tmp;
-  tmp = src;
+  // printf("\n\n");
+  // print_lst(src, N);
+
+  //   printf("\n%x  :  %x\n", src, lst);
+  // printf("\n%x  :  %x\n", dest, tmp);
+
+  int *temp;
+  temp = src;
   src = dest;
-  dest = tmp;
-    
+  dest = temp;
+
 }
 
 void selection_sort(int list[],int n){
@@ -119,7 +127,7 @@ void int_radix_sort(int *lst, int *tmp, int n, int iii) {
     printf("\nlst\t");
     print_lst(lst, n);
 
-    // COUNT
+    // COUNT - works
     printf("\ncnt\t");
     for (int i=0; i < n; i++) {
       cnt[(lst[i] >> iii) & mask]++;
@@ -128,7 +136,7 @@ void int_radix_sort(int *lst, int *tmp, int n, int iii) {
     
     print_lst(cnt, buckets);
     
-    // MAP
+    // MAP - works
     printf("\nmap\t");
     int j = 0;
     for (int i=0; i < buckets; i++) {
@@ -142,12 +150,15 @@ void int_radix_sort(int *lst, int *tmp, int n, int iii) {
     // MOVE
     printf("\nmov\t");
     for (int i=0; i < n; i++) {
-      tmp[map[(lst[i] >> iii) & mask]] = lst[i];
+      tmp[map[(lst[i] >> iii) & mask]++] = lst[i];
       //printf("%d  ", map[(lst[i] >> iii) & mask]);
     }
-    print_lst(tmp, n);
 
-      printf("\ntmp\t\n\n");
+    print_lst(tmp, n);
+    printf("\n");
+
+  swap(lst, tmp);
+
 }
 
 //fix the bucket size to 256. run 4 passes where each pass processes 8 bits
@@ -184,6 +195,6 @@ void self_check(int *list,int n) {
   for (i=0;i<n-1;i++)
      if (listp[i] > listp[i+1]) { flag = NOK; break; }
 
-  if (flag == OK) printf("sorted\n");
-  else printf("NOT sorted at %d\n",i);
+  if (flag == OK) printf("\nsorted\n");
+  else printf("\nNOT sorted at %d\n",i);
 }
