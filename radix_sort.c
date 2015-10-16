@@ -56,10 +56,10 @@ int main(int argc,char **argv) {
   // selection_sort(lst,n);
   //  merge_sort(lst,tmp,n);
 
-  // int *src, * dest;
+  int *src, * dest;
 
-  // src = lst;
-  // dest = tmp;
+  src = lst;
+  dest = tmp;
 
   // printf("%x  :  %x\n", src, lst);
   // printf("%x  :  %x\n", dest, tmp);
@@ -68,7 +68,13 @@ int main(int argc,char **argv) {
   // printf("%x  :  %x\n", dest, &tmp);
 
   for (int iii = 0; iii < 32; iii += group) {
-    int_radix_sort(lst, tmp, n, iii);
+    int_radix_sort(src, dest, n, iii);
+    
+    int *temp;
+    temp = src;
+    src = dest;
+    dest = temp;
+
   }
 
   //  float_radix_sort(lst,tmp,n);
@@ -85,16 +91,7 @@ int main(int argc,char **argv) {
 
 void swap(int *src, int *dest) {
 
-  // printf("\n\n");
-  // print_lst(src, N);
-
-  //   printf("\n%x  :  %x\n", src, lst);
-  // printf("\n%x  :  %x\n", dest, tmp);
-
-  int *temp;
-  temp = src;
   src = dest;
-  dest = temp;
 
 }
 
@@ -157,8 +154,6 @@ void int_radix_sort(int *lst, int *tmp, int n, int iii) {
     print_lst(tmp, n);
     printf("\n");
 
-  swap(lst, tmp);
-
 }
 
 //fix the bucket size to 256. run 4 passes where each pass processes 8 bits
@@ -172,8 +167,8 @@ void radix_sort(int ii) {
 void print_lst(int *l,int n){
   int i;
   for (i=0; i<n; i++) {
-    // printf("%d  ",l[i]);
-    printf("%x  ",l[i]);
+    printf("%d  ",l[i]);
+    // printf("%x  ",l[i]);
   }
   // printf("\n");
 }
