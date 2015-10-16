@@ -52,7 +52,7 @@ int main(int argc,char **argv) {
   else n = NELM;
   printf("n=%d\n",n);
   init_lst(lst,n);
-  print_lst(lst,n);
+  // print_lst(lst,n);
 
   // gettimeofday(&tv_s, NULL); 
   // selection_sort(lst,n);
@@ -116,6 +116,9 @@ void int_radix_sort(int *lst, int *tmp, int n, int iii) {
         cnt[i] = 0;
     }
     
+    printf("\nlst\t");
+    print_lst(lst, n);
+
     // COUNT
     printf("\ncnt\t");
     for (int i=0; i < n; i++) {
@@ -131,18 +134,20 @@ void int_radix_sort(int *lst, int *tmp, int n, int iii) {
     for (int i=0; i < buckets; i++) {
       map[i]=j;
       j=map[i]+cnt[i];
-      printf("%d  ", j);
+      // printf("%d  ", j);
     }
 
+    print_lst(map, buckets);
 
     // MOVE
     printf("\nmov\t");
     for (int i=0; i < n; i++) {
-      tmp[map[(lst[i] >> iii) & mask]++] = lst[i];
+      tmp[map[(lst[i] >> iii) & mask]] = lst[i];
       //printf("%d  ", map[(lst[i] >> iii) & mask]);
     }
+    print_lst(tmp, n);
 
-    print_lst(lst, n);
+      printf("\ntmp\t\n\n");
 }
 
 //fix the bucket size to 256. run 4 passes where each pass processes 8 bits
@@ -156,10 +161,10 @@ void radix_sort(int ii) {
 void print_lst(int *l,int n){
   int i;
   for (i=0; i<n; i++) {
-    printf("%d  ",l[i]);
-    //printf("%x  ",l[i]);
+    // printf("%d  ",l[i]);
+    printf("%x  ",l[i]);
   }
-  printf("\n");
+  // printf("\n");
 }
 
 void init_lst(int *l,int n){
